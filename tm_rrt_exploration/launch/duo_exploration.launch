@@ -2,8 +2,8 @@
 
 
 <launch>
-  <arg name="eta" value="1.0"/>
-  <arg name="Geta" value="1.0"/>
+  <arg name="eta" value="1.2"/>
+  <arg name="Geta" value="1.2"/>
   <arg name="info_radius" value="1.0"/>
   <arg name="info_multiplier" value="4.0"/>
   <arg name="hysteresis_radius" value="3.0"/>
@@ -11,16 +11,15 @@
   <arg name="costmap_clearing_threshold" value="60"/>
   <arg name="time_per_meter" value="6.0"/>
   <arg name="delay_after_assignment" value="0.3"/>   
-  <arg name="bandwith_cluster" value="0.35"/>   
+  <arg name="bandwith_cluster" value="0.32"/>   
   <arg name="frequency1" value="50.0"/>
   <arg name="frequency2" value="20.0"/>
   <arg name="detected_frontier" value="/detected_points"/>
   <arg name="filtered_frontier" value="/filtered_points"/>
-  <arg name="rd_metric" value="15.0"/>
+  <arg name="rd_metric" value="18.0"/>
   <!-- robot name space definition -->
   <arg name="first_tb3"  default="tb3_1"/>
   <arg name="second_tb3" default="tb3_2"/>
-
   <arg name="global_map" value ="/map"/>
   <arg name="global_frame" value ="map"/>
   <arg name="global_costmap_topic" value="/move_base_node/global_costmap/costmap"/>
@@ -29,9 +28,13 @@
   <arg name="move_base_service" value="/move_base"/>
 
   <!-- for starting the simulation in the initial poitn of the data -->
-  <arg name="initialStartPts" value ="0.39,0.58"/>
+  <!-- <arg name="initialStartPts" value ="0.39,0.58"/> -->
   <!-- <arg name="initialStartPts" value ="1.98,2.43"/> -->
+  <arg name="odom_topic_startpts" value="/tb3_2/odom"/>
+  <arg name="robot_frame" value="/tb3_2/base_link"/>
   
+
+
   <node pkg="tmrrt_exploration" type="boundary.py" name="exploration_boundary" output="screen">
     <param name="mapFrame" value="world"/>
     <param name="n_point" value="4"/>
@@ -39,7 +42,9 @@
     <param name="topicOutput" value="exploration_boundary"/>
     <param name="frequency" value="0.5"/>
     <param name="mapTopic" value="/map"/>
-    <param name="initialStartPts" value="$(arg initialStartPts)"/>
+    <!-- <param name="initialStartPts" value="$(arg initialStartPts)"/> -->
+    <param name="odom_topic_startpts" value="$(arg odom_topic_startpts)"/>
+    <param name="robot_frame" value="$(arg robot_frame)"/>
     </node>
     
   <node pkg="tmrrt_exploration" type="global_rrt_detector" name="global_rrt_detector" output="screen">
@@ -58,6 +63,8 @@
     <param name="map_topic" value="/$(arg second_tb3)/map"/>
     <param name="robot_frame" value="/$(arg second_tb3)/base_link"/>
   </node>
+
+  
 
   <node pkg="tmrrt_exploration" type="filter.py" name="filter" output="screen">
     <param name="map_topic" value="$(arg global_map)"/>
