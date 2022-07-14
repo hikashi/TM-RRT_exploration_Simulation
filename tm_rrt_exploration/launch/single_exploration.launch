@@ -19,9 +19,9 @@
   <arg name="rd_metric" value="15.0"/>
 
   <!-- robot name space definition -->
-  <arg name="first_tb3"  default="tb3_1"/>
+  <arg name="first_tb3"  default="tb3_0"/>
 
-  <arg name="global_map" value ="/map"/>
+  <arg name="global_map" value ="/$(arg first_tb3)/map"/>
   <arg name="global_frame" value ="map"/>
   <arg name="global_costmap_topic" value="/move_base_node/global_costmap/costmap"/>
   <arg name="plan_service" value="/move_base_node/NavfnROS/make_plan"/>
@@ -38,16 +38,18 @@
     <param name="topicInput" value="/clicked_point"/>
     <param name="topicOutput" value="exploration_boundary"/>
     <param name="frequency" value="0.5"/>
-    <param name="mapTopic" value="/map"/>
+    <param name="mapTopic" value="/$(arg first_tb3)/map"/>
     <param name="initialStartPts" value="$(arg initialStartPts)"/>
+    <param name="odom_topic_startpts" value="$(arg first_tb3)/odom"/>
+    <param name="robot_frame" value="$(arg first_tb3)/base_footprint"/>
   </node>
 
-  <node pkg="tmrrt_exploration" type="global_rrt_detector" name="global_detector" output="screen">
+  <node pkg="tmrrt_exploration" type="global_rrt_detector" name="$(arg first_tb3)_global_rrt_detector">
     <param name="eta" value="$(arg Geta)"/>
     <param name="map_topic" value="$(arg first_tb3)/map"/>
   </node>
   
-  <node pkg="tmrrt_exploration" type="local_rrt_detector" name="$(arg first_tb3)_rrt_detector" output="screen">
+  <node pkg="tmrrt_exploration" type="local_rrt_detector" name="$(arg first_tb3)_local_rrt_detector">
     <param name="eta" value="$(arg eta)"/>
     <param name="map_topic" value="/$(arg first_tb3)/map"/>
     <param name="robot_frame" value="/$(arg first_tb3)/base_link"/>
@@ -67,7 +69,7 @@
   </node>
 
   <node pkg="tmrrt_exploration" type="assigner.py" name="assigner" output="screen">
-    <param name="map_topic" value="/map"/>
+    <param name="map_topic" value="/$(arg first_tb3)/map"/>
     <param name="global_frame" value="map"/>
     <param name="info_radius" value="$(arg info_radius)"/> 
     <param name="info_multiplier" value="$(arg info_multiplier)"/> 
