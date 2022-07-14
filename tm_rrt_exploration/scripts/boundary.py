@@ -145,6 +145,8 @@ def node():
                         print(boundary_Pts)
                         print('waiting for the boundary points to be calculated')
                         pass
+                    
+                    rospy.sleep(0.7)
                     # now publishing the clicked point.
                     for point in boundary_Pts:
                         pub_point1 = PointStamped()
