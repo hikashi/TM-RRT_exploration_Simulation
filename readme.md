@@ -11,6 +11,8 @@ The following libraries are required to install before proceeding to run the cod
     $ sudo apt-get install python-opencv
     $ sudo apt-get install python-numpy
     $ sudo apt-get install python-scikits-learn
+    $ sudo apt-get install ros-melodic-teb-local-planner
+
     
 ## Installation Process
 create a new folder called "catkin_explore/src" by executing the following comment:
