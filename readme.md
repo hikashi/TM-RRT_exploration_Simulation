@@ -1,4 +1,7 @@
 # Temporal Memory-based RRT Exploration (Simulation)
+
+** In Construction **
+
 This directory showcases the simulation stage for the TM-RRT Exploration using Gazebo and RVIZ.
 
 ## Requirements
