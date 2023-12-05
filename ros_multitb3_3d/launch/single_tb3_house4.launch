@@ -24,8 +24,9 @@
 
   <!-- spawn the robots and related information -->
   <group ns = "/$(arg first_tb3)">
-    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find ros_3d_multitb3)/urdf/turtlebot3_$(arg model)_$(arg first_tb3).urdf.xacro" />
-  
+    <!-- <param name="robot_description" command="$(find xacro)/xacro -inorder $(find ros_3d_multitb3)/urdf/turtlebot3_$(arg model)_$(arg first_tb3).urdf.xacro" /> -->
+    <param name="robot_description" command="$(find xacro)/xacro $(find ros_3d_multitb3)/urdf/turtlebot3_waffle_pi.urdf.xacro botname:=$(arg second_tb3)" />
+
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
       <param name="publish_frequency" type="double" value="50.0" />
       <param name="use_tf_static" type="bool" value="false" />
@@ -43,34 +44,6 @@
       <rosparam command="load" file="$(find ros_3d_multitb3)/configuration/gmapping_params.yaml" />
     </node>
   
-    <!-- <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
-      <param name="frame_id" type="string" value="world" />
-      <param name="resolution" value="0.05" />
-      <param name="color/a" value="0.4" />
-      <param name="base_frame_id" type="string" value="$(arg first_tb3)/base_footprint"/>
-      <param name="sensor_model/max_range" value="5.0" />
-      <param name="filter_ground" value="false" />
-      <remap from="cloud_in" to="/$(arg first_tb3)/velodyne_points" />
-    </node> -->
-
-
-
-    <!-- <node pkg="octomap_server" type="octomap_server_node" name="octomap_server_to_map">
-      <param name="frame_id" type="string" value="/map" />
-      <param name="resolution" value="0.04" />
-      <param name="base_frame_id" type="string" value="$(arg first_tb3)/base_footprint"/>
-      <param name="sensor_model/max_range" value="6.0" />
-      <param name="occupancy_min_z" value="0.12"/>
-      <param name="occupancy_max_z" value="0.14" />
-      <param name="min_x_size" value="20.0"/>
-      <param name="min_y_size" value="20.0"/>
-      <remap from="cloud_in" to="/$(arg first_tb3)/velodyne_points" />
-      <remap from="projected_map" to="map" />
-      <remap from="octomap_binary" to="dummy_binary"/>
-      <remap from="octomap_full" to="dummy_full"/>
-      <remap from="occupied_cells_vis_array" to="dummy_vis_array"/>
-      <remap from="octomap_point_cloud_centers" to="dummy_pc_centers"/>
-    </node> -->
 
     <!-- <node pkg="tf" type="static_transform_publisher" name="world_to_map_tf_broadcaster"  args="0 0 0 0 0 0 world map 20"/>
     <node pkg="tf" type="static_transform_publisher" name="map_to_odom_tf_broadcaster"  args="0 0 0 0 0 0 map $(arg first_tb3)/odom 20"/>
@@ -83,16 +56,6 @@
       <arg name="namespace" value="$(arg first_tb3)"/>
     </include>
   </group>
-    	<!-- <group ns = "/$(arg namespace)"> -->
-    <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
-      <param name="frame_id" type="string" value="/map" />
-      <param name="resolution" value="0.05" />
-      <param name="base_frame_id" type="string" value="$(arg first_tb3)/base_footprint"/>
-      <param name="sensor_model/max_range" value="8.0" />
-      <param name="filter_ground" value="true" />
-      <remap from="cloud_in" to="/$(arg first_tb3)/velodyne_points" />
-    </node>
-
 
   <!-- rviz -->
     <node pkg="rviz" type="rviz" name="rviz" required="true"
