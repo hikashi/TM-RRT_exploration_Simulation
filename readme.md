@@ -21,7 +21,7 @@ Create a new folder called "catkin_explore/src" by executing the following comme
 
     $ sudo mkdir -p ~/catkin_explore/src
     $ cd ~/catkin_explore/src/
-    $ git clone -b mainhttps://github.com/hikashi/TM-RRT_exploration_Simulation.git
+    $ git clone -b main https://github.com/hikashi/TM-RRT_exploration_Simulation.git
     $ cd ~/catkin_explore
     $ catkin_make
     
