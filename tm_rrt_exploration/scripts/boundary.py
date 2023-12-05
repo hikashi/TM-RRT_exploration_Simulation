@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+
 import rospy
 import tf
 import numpy as np
@@ -64,20 +65,20 @@ def listenResetExplorationCallback(data):
 #############################################################
 def listenOdomCallback(data, args):
     global odomPts # args are listed as follows: 
-    # # 0 - listener, 1 - global_frame
-    # cond = 0
-    # while cond == 0:
-    #     try:
-    #         (trans, rot) = args[0].lookupTransform(args[1], data.header.frame_id, rospy.Time(0))
-    #         cond = 1
-    #     except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-    #         rospy.sleep(0.11)
-    #         cond == 0
-    #         rospy.sleep(0.5) # sleep to combat the spam request to ros network
-    # # now making odomPts 
-    # odomPts = trans
-    # # if no need odom
-    odomPts = [data.pose.pose.position.x, data.pose.pose.position.y]
+    # 0 - listener, 1 - global_frame
+    cond = 0
+    while cond == 0:
+        try:
+            (trans, rot) = args[0].lookupTransform(args[1], data.header.frame_id, rospy.Time(0))
+            cond = 1
+        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+            rospy.sleep(0.11)
+            cond == 0
+            rospy.sleep(0.5) # sleep to combat the spam request to ros network
+    # now making odomPts 
+    odomPts = trans
+    # if no need odom
+    # odomPts = [data.pose.pose.position.x, data.pose.pose.position.y]
 #############################################################
 def node():
     # decide the global parameter for the data and workign on the necessary things for the data
@@ -98,7 +99,7 @@ def node():
     autoInputPoint= rospy.get_param('~AutoInputPoint', "")   # the auto input point instead of clicked point. (points separated by semicolon; and axis are separated by comma,)
     diagDistance  = rospy.get_param('~diagonal_distance', 7.50)   # the auto input point instead of clicked point. (points separated by semicolon; and axis are separated by comma,)
     mapTopic      = rospy.get_param('~mapTopic', '/map')   # the  name of the topic map subscribe to.
-    initialPoint  = rospy.get_param('~initialStartPts', '-1')   # the initial start pts if manually assign start pts
+    initialPoint  = rospy.get_param('~initialStartPts', '1.9,3.19')   # the initial start pts if manually assign start pts
     odom_topic    = rospy.get_param('~odom_topic_startpts', '/tb3_1/odom')   # odom topic for defining pts
     robot_frame   = rospy.get_param('~robot_frame', '/tb3_1/base_footprint')   # footprint for converting tf
     # define the odom capture time
@@ -145,9 +146,8 @@ def node():
                         print(boundary_Pts)
                         print('waiting for the boundary points to be calculated')
                         pass
-                    
-                    rospy.sleep(0.7)
                     # now publishing the clicked point.
+                    rospy.sleep(2.0)
                     for point in boundary_Pts:
                         pub_point1 = PointStamped()
                         pub_point1.header.frame_id = mapFrame
@@ -155,7 +155,7 @@ def node():
                         pub_point1.point.y = float(point[1])
                         pub_point1.point.z = 0.0
                         clicked_point_pub.publish(pub_point1)
-                        rospy.sleep(0.5)
+                        rospy.sleep(1.5)
 
                     # now waiting for the user input.
                     # while len(recordedPoints) < (n_point):
@@ -165,15 +165,13 @@ def node():
                     #     rospy.sleep(1.0)
                     #     pass
 
+                    tempStr = initialPoint.split(",")
                     pub_point2 = PointStamped()
                     pub_point2.header.frame_id = mapFrame
-                    if initialPoint == '-1':
-                        pub_point2.point.x = float(odomPts[0])
-                        pub_point2.point.y = float(odomPts[1])
-                    else:
-                        tempStr = initialPoint.split(",")
-                        pub_point2.point.x = float(tempStr[0])
-                        pub_point2.point.y = float(tempStr[1])
+                    pub_point2.point.x = float(tempStr[0])
+                    pub_point2.point.y = float(tempStr[1])
+                    # pub_point2.point.x = float(odomPts[0])
+                    # pub_point2.point.y = float(odomPts[1])
                     pub_point2.point.z = 0.0
                     clicked_point_pub.publish(pub_point2)
                     rospy.sleep(0.7)

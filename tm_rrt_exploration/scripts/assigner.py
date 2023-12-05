@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 #--------Include modules---------------
 import rospy
@@ -62,7 +62,7 @@ def node():
 	message_time_interval    = rospy.get_param('~message_time_interval',2.0)
 	robot_namelist           = rospy.get_param('~robot_namelist', "robot1")
 	delay_after_assignment   = rospy.get_param('~delay_after_assignment',1.0)
-	invalid_distance         = rospy.get_param('~invalid_distance',1.0)
+	invalid_distance         = rospy.get_param('~invalid_distance',0.5)
 	rp_metric_distance       = rospy.get_param('~rp_metric_distance',10.0)
 	non_interrupt_time       = rospy.get_param('~non_interrupt_time',1.2)
 	start_delay              = rospy.get_param('~start_delay',1.0)
@@ -462,7 +462,7 @@ def node():
 						repeatInvalid = False
 						distance = calculateLocationDistance(robots[ix].getPosition(), robot_assigned_goal[ix]['goal'])
 						for ie in range(0,len(invalidFrontier)):
-							if calculateLocationDistance(invalidFrontier[ie], robot_assigned_goal[ix]['goal']) < 0.1:
+							if calculateLocationDistance(invalidFrontier[ie], robot_assigned_goal[ix]['goal']) < 0.01:
 								repeatInvalid = True
 						if repeatInvalid == False:
 							tempInvGoal = Point()
