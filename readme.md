@@ -1,4 +1,4 @@
-# Temporal Memory-based RRT Exploration (Simulation)
+# Temporal Memory-based RRT (TM-RRT) Exploration Simulation (ROS Melodic)
 This directory showcases the simulation stage for the TM-RRT Exploration using Gazebo and RVIZ.
 
 ## Requirements
