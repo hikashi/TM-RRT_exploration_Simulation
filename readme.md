@@ -1,20 +1,19 @@
+
 # Temporal Memory-based RRT Exploration (Simulation)
-
-** In Construction **
-
 This directory showcases the simulation stage for the TM-RRT Exploration using Gazebo and RVIZ.
 
 ## Requirements
-The following code is executed in ROS Melodic in Ubuntu 18.04 LTS, Python 2.7
+The following code is executed in ROS Melodic in Ubuntu  20.04 LTS, Python 3.X
 
 The following libraries are required to be installed before proceeding to run the code
 
     $ sudo apt-get install ros-melodic-gmapping
     $ sudo apt-get install ros-melodic-navigation
-    $ sudo apt-get install python-opencv
-    $ sudo apt-get install python-numpy
-    $ sudo apt-get install python-scikits-learn
-    $ sudo apt-get install ros-melodic-teb-local-planner
+    $ sudo apt-get install python3-pip
+    $ pip3 install scikit-learn
+    $ sudo apt-get install ros-neotic-teb-local-planner
+    $ sudo apt-get install ros-noetic-turtlebot3*
+    $ sudo apt-get install ros-noetic-multirobot-map-merge
 
     
 ## Installation Process
@@ -22,7 +21,7 @@ Create a new folder called "catkin_explore/src" by executing the following comme
 
     $ sudo mkdir -p ~/catkin_explore/src
     $ cd ~/catkin_explore/src/
-    $ git clone https://github.com/hikashi/TM-RRT_exploration.git
+    $ git clone -b mainhttps://github.com/hikashi/TM-RRT_exploration_Simulation.git
     $ cd ~/catkin_explore
     $ catkin_make
     
